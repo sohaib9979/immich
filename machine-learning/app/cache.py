@@ -56,10 +56,7 @@ class ModelCache:
         return model
 
     async def get_profiling(self) -> dict[str, float] | None:
-        if not hasattr(self.cache, "profiling"):
-            return None
-
-        return self.cache.profiling  # type: ignore
+        return None if not hasattr(self.cache, "profiling") else self.cache.profiling
 
 
 class RevalidationPlugin(BasePlugin):
