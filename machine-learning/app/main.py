@@ -73,8 +73,7 @@ async def image_classification(payload: VisionModelRequest) -> list[str]:
     model = await _model_cache.get_cached_model(
         classification_model, "image-classification"
     )
-    labels = run_classification(model, payload.image_path, min_tag_score)
-    return labels
+    return run_classification(model, payload.image_path, min_tag_score)
 
 
 @app.post(
@@ -88,8 +87,7 @@ async def clip_encode_image(payload: VisionModelRequest) -> list[float]:
 
     model = await _model_cache.get_cached_model(clip_image_model, "clip")
     image = Image.open(payload.image_path)
-    embedding = model.encode(image).tolist()
-    return embedding
+    return model.encode(image).tolist()
 
 
 @app.post(
@@ -102,8 +100,7 @@ async def clip_encode_text(payload: TextModelRequest) -> list[float]:
         raise HTTPException(status_code=500, detail="Unable to load model.")
 
     model = await _model_cache.get_cached_model(clip_text_model, "clip")
-    embedding = model.encode(payload.text).tolist()
-    return embedding
+    return model.encode(payload.text).tolist()
 
 
 @app.post(
@@ -116,8 +113,7 @@ async def facial_recognition(payload: VisionModelRequest) -> list[dict[str, Any]
     model = await _model_cache.get_cached_model(
         facial_recognition_model, "facial-recognition"
     )
-    faces = run_facial_recognition(model, payload.image_path)
-    return faces
+    return run_facial_recognition(model, payload.image_path)
 
 
 if __name__ == "__main__":
